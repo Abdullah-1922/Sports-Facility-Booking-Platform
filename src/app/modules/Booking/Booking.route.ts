@@ -9,24 +9,16 @@ import { BookingControllers } from "./Booking.controller";
 
 const router = express.Router();
 
-// router.get("/", FacilityControllers.getAllFacilities);
+router.get("/", BookingControllers.getAllBooking);
+router.get("/user",auth(USER_ROLE.user), BookingControllers.getUserBooking);
 
 router.post(
   "/",
   auth(USER_ROLE.user),
   validateRequest(BookingValidation.createBooking),
-BookingControllers.createBooking
+  BookingControllers.createBooking
 );
-// router.put(
-//   "/:id",
-//   auth(USER_ROLE.admin),
-//   validateRequest(FacilityValidation.updateFacilityValidation),
-//   FacilityControllers.updateFacility
-// );
-// router.delete(
-//   "/:id",
-//   auth(USER_ROLE.admin),
-//   FacilityControllers.deleteFacility
-// );
+
+router.delete("/:id", auth(USER_ROLE.user), BookingControllers.cancelBooking);
 
 export const BookingRoute = router;

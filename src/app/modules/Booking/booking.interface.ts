@@ -9,3 +9,7 @@ import { Types } from "mongoose";
     payableAmount: number;
     isBooked: 'confirmed' | 'unconfirmed' | 'canceled';
   }
+  export type TSlot = {
+    startTime: string;
+    endTime: string;
+  };
