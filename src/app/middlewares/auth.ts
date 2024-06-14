@@ -11,7 +11,10 @@ const auth = (...requiredRoles: TUserRole[]) => {
     //check if the token is send from client
     const authToken = req.headers.authorization;
     if (!authToken) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "You have no access to this route");
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        "You have no access to this route"
+      );
     }
     const token = authToken.replace("Bearer ", "");
 
@@ -21,7 +24,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
 
     const { email, role } = decode as JwtPayload;
 
-    const user = User.isUserExistsByEmail(email);
+    const user = await User.isUserExistsByEmail(email);
     if (!user) {
       throw new AppError(
         httpStatus.UNAUTHORIZED,

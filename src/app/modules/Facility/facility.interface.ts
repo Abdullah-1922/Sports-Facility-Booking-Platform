@@ -1,5 +1,5 @@
 
-export type TFaculty={
+export type TFacility={
     name:string;
     description:string;
     pricePerHour:number;

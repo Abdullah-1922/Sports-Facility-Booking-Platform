@@ -22,7 +22,7 @@ const signUp = async (payload: TUser) => {
 const login = async (payload: { email: string; password: string }) => {
   const user = await User.isUserExistsByEmail(payload.email);
   if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "User not found");
+    throw new AppError(httpStatus.NOT_FOUND,"No Data Found");
   }
 
 
