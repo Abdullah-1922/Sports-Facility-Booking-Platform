@@ -5,7 +5,7 @@ import { FacilityServices } from "./facility.service";
 
 const createFacility = catchAsync(async (req, res) => {
   const result = await FacilityServices.createFacility(req.body);
- 
+
   sendResponse(res, {
     success: true,
     message: "Facility added successfully",
@@ -37,21 +37,19 @@ const deleteFacility = catchAsync(async (req, res) => {
   });
 });
 
-const getAllFacilities=catchAsync(
-  async(req,res)=>{
-    const result =await FacilityServices.getAllFacilities()
-    sendResponse(res, {
-      success: true,
-      message:"Facilities retrieved successfully",
-      data: result,
-      statusCode: httpStatus.OK,
-    });
-  }
-)
+const getAllFacilities = catchAsync(async (req, res) => {
+  const result = await FacilityServices.getAllFacilities();
+  sendResponse(res, {
+    success: true,
+    message: "Facilities retrieved successfully",
+    data: result,
+    statusCode: httpStatus.OK,
+  });
+});
 
 export const FacilityControllers = {
   createFacility,
   updateFacility,
   deleteFacility,
-  getAllFacilities
+  getAllFacilities,
 };

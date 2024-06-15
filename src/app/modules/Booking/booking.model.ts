@@ -18,27 +18,30 @@ const bookingSchema = new Schema<TBooking>(
       default: "unconfirmed",
     },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 bookingSchema.pre("save", async function (next) {
   const booking = this as TBooking;
- 
+
   const newStart = new Date(`1970-01-01T${booking.startTime}:00Z`).getTime();
   const newEnd = new Date(`1970-01-01T${booking.endTime}:00Z`).getTime();
-   
-  if(newEnd<newStart){
-      throw new AppError(httpStatus.BAD_REQUEST,"StartTime can not higher than endTime")
+
+  if (newEnd < newStart) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "StartTime can not higher than endTime",
+    );
   }
-  if(newEnd ===newStart){
-      throw new AppError(httpStatus.BAD_REQUEST,"StartTime can not same as endTime")
+  if (newEnd === newStart) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "StartTime can not same as endTime",
+    );
   }
-
-
-
 
   const facility = await Facility.findById(booking.facility).select(
-    "pricePerHour"
+    "pricePerHour",
   );
 
   if (!facility) {

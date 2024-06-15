@@ -1,25 +1,25 @@
 {
-    "parser": "@typescript-eslint/parser",
-    "extends": [
-      "plugin:@typescript-eslint/recommended"
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "plugin:@typescript-eslint/recommended"
     //   "prettier"
-    ],
-    "plugins": ["@typescript-eslint"],
-    "rules": {
-        "no-unused-vars": "error",
-        "no-unused-expressions":"error",
-        "prefer-const":"error",
-        "no-console":"warn",
-        "no-undefined":"error",
-        "@typescript-eslint/no-explicit-any":"warn"
-    },
-    "globals": {
-        "process":"readonly"
-    },
-    "overrides": [
-        {
-            "files":["src/**/*.{ts,tsx}"],
-            "excludedFiles": ["node_modules/**"]
-        }
-    ]
-  }
+  ],
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "no-unused-vars": "error",
+    "no-unused-expressions": "error",
+    "prefer-const": "error",
+    "no-console": "warn",
+    "no-undefined": "error",
+    "@typescript-eslint/no-explicit-any": "warn"
+  },
+  "globals": {
+    "process": "readonly"
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.{ts,tsx}"],
+      "excludedFiles": ["node_modules/**"]
+    }
+  ]
+}

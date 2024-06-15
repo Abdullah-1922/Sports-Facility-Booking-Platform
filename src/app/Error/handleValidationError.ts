@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { TErrorMessages, TGenericErrorResponse } from "../interface/error";
 
 const handleValidationError = (
-  err: mongoose.Error.ValidationError
+  err: mongoose.Error.ValidationError,
 ): TGenericErrorResponse => {
   const errorMessages: TErrorMessages = Object.values(err.errors).map(
     (val: mongoose.Error.ValidatorError | mongoose.Error.CastError) => {
@@ -10,7 +10,7 @@ const handleValidationError = (
         path: val?.path,
         message: val?.message,
       };
-    }
+    },
   );
 
   const statusCode = 400;

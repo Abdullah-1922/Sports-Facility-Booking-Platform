@@ -16,7 +16,7 @@ const createBooking = async (payload: Partial<TBooking>, userEmail: string) => {
   if (hasConflict(facultyBooking, payload)) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      "facility is unavailable during the requested time slot"
+      "facility is unavailable during the requested time slot",
     );
   }
 
@@ -41,7 +41,9 @@ const getUserBooking = async (userEmail: string) => {
   if (!user) {
     throw new Error("User not found");
   }
-  const result = await Booking.find({ user: (await user)._id });
+  const result = await Booking.find({ user: (await user)._id }).populate(
+    "facility",
+  );
   return result;
 };
 const cancelBooking = async (userEmail: string, id: string) => {
@@ -53,20 +55,20 @@ const cancelBooking = async (userEmail: string, id: string) => {
   const result = await Booking.findOneAndUpdate(
     { _id: id, user: user._id },
     { isBooked: "canceled" },
-    { new: true }
+    { new: true },
   ).populate("facility");
 
   return result;
 };
 
 const checkAvailability = async (date: string) => {
-  const bookingSlots = await Booking.find({ date: date }).select(
-    "startTime endTime -_id"
-  );
+  const bookingSlots = await Booking.find({
+    date: date,
+    isBooked: "confirmed",
+  }).select("startTime endTime -_id");
 
   const result = availableSlots(bookingSlots);
   return result;
-  
 };
 
 export const BookingServices = {

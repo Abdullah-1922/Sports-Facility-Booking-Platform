@@ -4,11 +4,11 @@ import { TBooking, TSlot } from "./booking.interface";
 
 export const hasConflict = (
   facultyBookings: TBooking[],
-  payload: Partial<TBooking>
+  payload: Partial<TBooking>,
 ) =>
   facultyBookings.some((booking) => {
     const existingStart = new Date(
-      `1970-01-01T${booking.startTime}:00Z`
+      `1970-01-01T${booking.startTime}:00Z`,
     ).getTime();
     const existingEnd = new Date(`1970-01-01T${booking.endTime}:00Z`).getTime();
     const newStart = new Date(`1970-01-01T${payload.startTime}:00Z`).getTime();
@@ -17,7 +17,7 @@ export const hasConflict = (
     if (newEnd < newStart) {
       throw new AppError(
         httpStatus.BAD_REQUEST,
-        "StartTime can not higher than endTime"
+        "StartTime can not higher than endTime",
       );
     }
 

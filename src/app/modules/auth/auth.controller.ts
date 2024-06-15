@@ -17,11 +17,12 @@ const login = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     message: "User logged in successfully",
-    token:result.token,
-    data:result.user,
+    token: result.token,
+    data: result.user,
     statusCode: httpStatus.OK,
   });
 });
 export const authControllers = {
-  signUp,login
+  signUp,
+  login,
 };

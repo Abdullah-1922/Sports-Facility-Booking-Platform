@@ -9,16 +9,9 @@ const facilitySchema = new Schema<TFacility>(
     location: { type: String, required: true },
     isDeleted: { type: Boolean, required: true, default: false },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
-// facilitySchema.post("find", function (docs,next) {
-// //   docs.filter((data: TFacility) => data.isDeleted !== true);
-//   const filteredDocs = docs.filter((data: TFacility) => !data.isDeleted);
-//   docs.splice(0, docs.length, ...filteredDocs);
-
-//   next()
-// });
 facilitySchema.pre("find", function (next) {
   // console.log('from this',this.find({}));
   this.find({ isDeleted: { $ne: true } });

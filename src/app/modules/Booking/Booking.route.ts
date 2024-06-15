@@ -9,14 +9,14 @@ import { BookingControllers } from "./Booking.controller";
 
 const router = express.Router();
 
-router.get("/", BookingControllers.getAllBooking);
-router.get("/user",auth(USER_ROLE.user), BookingControllers.getUserBooking);
+router.get("/", auth(USER_ROLE.admin), BookingControllers.getAllBooking);
+router.get("/user", auth(USER_ROLE.user), BookingControllers.getUserBooking);
 
 router.post(
   "/",
   auth(USER_ROLE.user),
   validateRequest(BookingValidation.createBooking),
-  BookingControllers.createBooking
+  BookingControllers.createBooking,
 );
 
 router.delete("/:id", auth(USER_ROLE.user), BookingControllers.cancelBooking);

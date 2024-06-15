@@ -12,14 +12,14 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", AuthRoute);
-app.use("/api/facility",FacilityRoute)
-app.use("/api/booking",BookingRoute)
-app.use("/api/check-availability",BookingControllers.checkAvailability)
+app.use("/api/facility", FacilityRoute);
+app.use("/api/bookings", BookingRoute);
+app.use("/api/check-availability", BookingControllers.checkAvailability);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
-app.use('*',NotFound)
+app.use("*", NotFound);
 app.use(globalErrorHandler);
 export default app;

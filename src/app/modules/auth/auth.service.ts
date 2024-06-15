@@ -4,14 +4,14 @@ import { TUser } from "../User/user.interface";
 import { User } from "../User/user.model";
 import { createToken } from "./auth.utils";
 import config from "../../config";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
 const signUp = async (payload: TUser) => {
   const user = await User.isUserExistsByEmail(payload.email);
   if (user) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      "This email is already registered"
+      "This email is already registered",
     );
   }
 
@@ -22,19 +22,13 @@ const signUp = async (payload: TUser) => {
 const login = async (payload: { email: string; password: string }) => {
   const user = await User.isUserExistsByEmail(payload.email);
   if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND,"No Data Found");
+    throw new AppError(httpStatus.NOT_FOUND, "No Data Found");
   }
 
-
-  const passwordMatch= await bcrypt.compare(payload.password, user.password);
- if(!passwordMatch){
-    throw new AppError(httpStatus.UNAUTHORIZED,'Wrong password')
- }
-
-
-
-
-
+  const passwordMatch = await bcrypt.compare(payload.password, user.password);
+  if (!passwordMatch) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "Wrong password");
+  }
 
   const jwtPayload = {
     email: user.email,
@@ -43,7 +37,7 @@ const login = async (payload: { email: string; password: string }) => {
   const token = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
-    "365d"
+    "365d",
   );
 
   return { token, user };
