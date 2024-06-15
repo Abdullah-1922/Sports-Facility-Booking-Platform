@@ -11,12 +11,13 @@ const createBooking = async (payload: Partial<TBooking>, userEmail: string) => {
   const facultyBooking = await Booking.find({
     facility: payload.facility,
     date: payload.date,
+    isBooked:'confirmed'
   });
 
   if (hasConflict(facultyBooking, payload)) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      "facility is unavailable during the requested time slot",
+      "facility is unavailable during the requested time slot"
     );
   }
 
@@ -42,7 +43,7 @@ const getUserBooking = async (userEmail: string) => {
     throw new Error("User not found");
   }
   const result = await Booking.find({ user: (await user)._id }).populate(
-    "facility",
+    "facility"
   );
   return result;
 };
@@ -55,7 +56,7 @@ const cancelBooking = async (userEmail: string, id: string) => {
   const result = await Booking.findOneAndUpdate(
     { _id: id, user: user._id },
     { isBooked: "canceled" },
-    { new: true },
+    { new: true }
   ).populate("facility");
 
   return result;
@@ -66,7 +67,7 @@ const checkAvailability = async (date: string) => {
     date: date,
     isBooked: "confirmed",
   }).select("startTime endTime -_id");
-
+console.log(bookingSlots);
   const result = availableSlots(bookingSlots);
   return result;
 };
