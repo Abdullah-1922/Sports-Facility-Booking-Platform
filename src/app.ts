@@ -17,7 +17,7 @@ app.use("/api/bookings", BookingRoute);
 app.use("/api/check-availability", BookingControllers.checkAvailability);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
+  res.send("Sports Facility Booking Platform!");
 });
 
 app.use("*", NotFound);
