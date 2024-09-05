@@ -66,7 +66,10 @@ const checkAvailability = catchAsync(async (req, res) => {
   if (!queryDate) {
     queryDate = new Date().toISOString().split("T")[0];
   }
-  const result = await BookingServices.checkAvailability(queryDate);
+  const result = await BookingServices.checkAvailability(
+    queryDate,
+    req.params.id
+  );
   const isResult = result.length !== 0;
   sendResponse(res, {
     success: isResult ? true : false,
@@ -75,6 +78,10 @@ const checkAvailability = catchAsync(async (req, res) => {
     statusCode: isResult ? httpStatus.OK : 404,
   });
 });
+
+
+
+
 export const BookingControllers = {
   createBooking,
   cancelBooking,

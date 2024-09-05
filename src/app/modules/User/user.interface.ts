@@ -11,6 +11,7 @@ export interface TUser {
   phone: string;
   role: "admin" | "user";
   address: string;
+  image:string
 }
 
 export type TUserRole = keyof typeof USER_ROLE;

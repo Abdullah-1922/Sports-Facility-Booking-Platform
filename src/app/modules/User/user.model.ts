@@ -10,15 +10,18 @@ const userSchema = new Schema<TUser, UserModel>(
     phone: { type: String, required: true },
     role: {
       type: String,
-      required: true,
+      
       enum: {
         values: ["user", "admin"],
         message: "{VALUE} is not acceptable .",
       },
+      default:'user'
     },
     address: { type: String, required: true },
+    image:{type:String,required:true}
   },
   { versionKey: false },
+
 );
 
 userSchema.pre("save", async function (next) {

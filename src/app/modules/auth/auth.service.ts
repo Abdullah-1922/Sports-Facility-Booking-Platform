@@ -11,9 +11,23 @@ const signUp = async (payload: TUser) => {
   if (user) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      "This email is already registered",
+      "This email is already registered"
     );
   }
+  payload.role = "user";
+
+  const result = await User.create(payload);
+  return result;
+};
+const addAdmin = async (payload: TUser) => {
+  const user = await User.isUserExistsByEmail(payload.email);
+  if (user) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "This email is already registered"
+    );
+  }
+  payload.role = "admin";
 
   const result = await User.create(payload);
   return result;
@@ -37,7 +51,7 @@ const login = async (payload: { email: string; password: string }) => {
   const token = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
-    "365d",
+    "365d"
   );
 
   return { token, user };
@@ -46,4 +60,5 @@ const login = async (payload: { email: string; password: string }) => {
 export const authServices = {
   signUp,
   login,
+  addAdmin
 };

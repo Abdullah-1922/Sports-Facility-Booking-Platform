@@ -8,9 +8,7 @@ const createUserValidation = z.object({
       .email({ message: "Input must be an email" }),
     password: z.string({ required_error: "Password is required" }),
     phone: z.string({ required_error: "Phone number is required" }),
-    role: z.enum(["user", "admin"], {
-      message: " Value should be user | admin  ",
-    }),
+
     address: z.string({ required_error: "Name is required" }),
   }),
 });

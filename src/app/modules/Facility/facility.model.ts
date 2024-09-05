@@ -7,9 +7,10 @@ const facilitySchema = new Schema<TFacility>(
     description: { type: String, required: true },
     pricePerHour: { type: Number, required: true },
     location: { type: String, required: true },
+    image: { type: String, required: true },
     isDeleted: { type: Boolean, required: true, default: false },
   },
-  { versionKey: false },
+  { versionKey: false }
 );
 
 facilitySchema.pre("find", function (next) {

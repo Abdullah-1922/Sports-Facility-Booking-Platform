@@ -3,6 +3,7 @@ import AppError from "../../Error/AppErrors";
 
 import { Facility } from "./facility.model";
 import { TFacility } from "./facility.interface";
+import QueryBuilder from "../../builder/QueryBuilder";
 
 const createFacility = async (payload: TFacility) => {
   const result = await Facility.create(payload);
@@ -28,13 +29,28 @@ const deleteFacility = async (id: string) => {
   const result = await Facility.findByIdAndUpdate(
     id,
     { isDeleted: true },
-    { new: true },
+    { new: true }
   );
   return result;
 };
 
-const getAllFacilities = async () => {
-  const result = await Facility.find({});
+const getAllFacilities = async (query: Record<string, unknown>) => {
+  const facilityQuery = new QueryBuilder(Facility.find(), query)
+    .search(["name", "location"])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await facilityQuery.modelQuery.exec();
+
+  // console.log(result);
+  const meta = await facilityQuery.countTotal();
+  return { result, meta };
+};
+
+const getSingleFacility = async (id: string) => {
+  const result = await Facility.findById(id);
   return result;
 };
 
@@ -43,4 +59,5 @@ export const FacilityServices = {
   updateFacility,
   deleteFacility,
   getAllFacilities,
+  getSingleFacility,
 };

@@ -18,7 +18,7 @@ const bookingSchema = new Schema<TBooking>(
       default: "unconfirmed",
     },
   },
-  { versionKey: false },
+  { versionKey: false }
 );
 
 bookingSchema.pre("save", async function (next) {
@@ -30,18 +30,18 @@ bookingSchema.pre("save", async function (next) {
   if (newEnd < newStart) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      "StartTime can not higher than endTime",
+      "StartTime can not higher than endTime"
     );
   }
   if (newEnd === newStart) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      "StartTime can not same as endTime",
+      "StartTime can not same as endTime"
     );
   }
 
   const facility = await Facility.findById(booking.facility).select(
-    "pricePerHour",
+    "pricePerHour"
   );
 
   if (!facility) {
@@ -53,7 +53,7 @@ bookingSchema.pre("save", async function (next) {
   const durationInHours = (endTime - startTime) / (1000 * 60 * 60);
 
   // Calculate the payable amount
-  booking.payableAmount = durationInHours * facility.pricePerHour;
+  booking.payableAmount = Math.floor(durationInHours * facility.pricePerHour);
   next();
 });
 

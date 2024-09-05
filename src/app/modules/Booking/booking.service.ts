@@ -6,12 +6,13 @@ import { Booking } from "./booking.model";
 import AppError from "../../Error/AppErrors";
 import httpStatus from "http-status";
 import { availableSlots, hasConflict } from "./booking.utils";
+import { Facility } from "../Facility/facility.model";
 
 const createBooking = async (payload: Partial<TBooking>, userEmail: string) => {
   const facultyBooking = await Booking.find({
     facility: payload.facility,
     date: payload.date,
-    isBooked:'confirmed'
+    isBooked: "confirmed",
   });
 
   if (hasConflict(facultyBooking, payload)) {
@@ -32,17 +33,18 @@ const createBooking = async (payload: Partial<TBooking>, userEmail: string) => {
   const result = await Booking.create(payload);
   return result;
 };
+
 const getAllBooking = async () => {
   const result = await Booking.find().populate(["facility", "user"]);
   return result;
 };
 
 const getUserBooking = async (userEmail: string) => {
-  const user = User.isUserExistsByEmail(userEmail);
+  const user =await User.isUserExistsByEmail(userEmail);
   if (!user) {
     throw new Error("User not found");
   }
-  const result = await Booking.find({ user: (await user)._id }).populate(
+  const result = await Booking.find({ user: user._id,isBooked:'confirmed' }).populate(
     "facility"
   );
   return result;
@@ -62,12 +64,18 @@ const cancelBooking = async (userEmail: string, id: string) => {
   return result;
 };
 
-const checkAvailability = async (date: string) => {
+const checkAvailability = async (date: string, id: string) => {
+  const isFacilityAvailable = await Facility.findById(id);
+  if (!isFacilityAvailable) {
+    throw new AppError(404, "Facility Id Invalid");
+  }
+
   const bookingSlots = await Booking.find({
+    facility: id,
     date: date,
     isBooked: "confirmed",
   }).select("startTime endTime -_id");
-console.log(bookingSlots);
+
   const result = availableSlots(bookingSlots);
   return result;
 };
@@ -78,4 +86,5 @@ export const BookingServices = {
   getUserBooking,
   cancelBooking,
   checkAvailability,
+  
 };

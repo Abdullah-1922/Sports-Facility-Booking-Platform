@@ -9,23 +9,24 @@ import { FacilityValidation } from "./facility.validation";
 const router = express.Router();
 
 router.get("/", FacilityControllers.getAllFacilities);
+router.get("/:id", FacilityControllers.getSingleFacility);
 
 router.post(
   "/",
   auth(USER_ROLE.admin),
   validateRequest(FacilityValidation.createFacilityValidation),
-  FacilityControllers.createFacility,
+  FacilityControllers.createFacility
 );
 router.put(
   "/:id",
   auth(USER_ROLE.admin),
   validateRequest(FacilityValidation.updateFacilityValidation),
-  FacilityControllers.updateFacility,
+  FacilityControllers.updateFacility
 );
 router.delete(
   "/:id",
   auth(USER_ROLE.admin),
-  FacilityControllers.deleteFacility,
+  FacilityControllers.deleteFacility
 );
 
 export const FacilityRoute = router;

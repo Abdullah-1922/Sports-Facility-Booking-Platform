@@ -12,8 +12,18 @@ const signUp = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
   });
 });
+const addAdmin = catchAsync(async (req, res) => {
+  const result = await authServices.addAdmin(req.body);
+  sendResponse(res, {
+    success: true,
+    message: "Admin Created successfully",
+    data: result,
+    statusCode: httpStatus.OK,
+  });
+});
 const login = catchAsync(async (req, res) => {
   const result = await authServices.login(req.body);
+  
   sendResponse(res, {
     success: true,
     message: "User logged in successfully",
@@ -25,4 +35,5 @@ const login = catchAsync(async (req, res) => {
 export const authControllers = {
   signUp,
   login,
+  addAdmin
 };
